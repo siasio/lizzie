@@ -66,9 +66,11 @@ public class Config {
   public boolean showSubBoard = true;
   public boolean largeSubBoard = false;
   public boolean startMaximized = true;
+  public boolean showDifferenceInSuggestion = false;
   public boolean showWinrateInSuggestion = true;
   public boolean showPlayoutsInSuggestion = true;
   public boolean showScoremeanInSuggestion = true;
+  public boolean hoverToShowData = false;
   public boolean showToolBar = true;
   public String toolbarPosition = "South";
   public boolean showNameInBoard = true;
@@ -241,9 +243,11 @@ public class Config {
     showKataGoEstimateOnSubboard = uiConfig.optBoolean("show-katago-estimate-onsubboard", true);
     showKataGoEstimateOnMainboard = uiConfig.optBoolean("show-katago-estimate-onmainboard", true);
     kataGoEstimateMode = uiConfig.optString("katago-estimate-mode", "small+dead");
+    showDifferenceInSuggestion = uiConfig.optBoolean("show-difference-in-suggestion", false);
     showWinrateInSuggestion = uiConfig.optBoolean("show-winrate-in-suggestion", true);
     showPlayoutsInSuggestion = uiConfig.optBoolean("show-playouts-in-suggestion", true);
     showScoremeanInSuggestion = uiConfig.optBoolean("show-scoremean-in-suggestion", true);
+    hoverToShowData = uiConfig.optBoolean("hover-to-show-data", false);
     showToolBar = uiConfig.optBoolean("show-toolbar", true);
     showNameInBoard = uiConfig.optBoolean("show-name-in-board", true);
     toolbarPosition =

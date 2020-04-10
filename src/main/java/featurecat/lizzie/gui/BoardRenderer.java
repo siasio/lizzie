@@ -13,6 +13,7 @@ import static java.lang.Math.round;
 
 import featurecat.lizzie.Lizzie;
 import featurecat.lizzie.analysis.Branch;
+import featurecat.lizzie.analysis.Leelaz;
 import featurecat.lizzie.analysis.MoveData;
 import featurecat.lizzie.rules.Board;
 import featurecat.lizzie.rules.BoardData;
@@ -880,13 +881,21 @@ public class BoardRenderer {
 
   /** Draw winrate/playout/score statistics from textDatas */
   private void drawLeelazSuggestionsForeground(Graphics2D g, List<TextData> textDatas) {
+    Leelaz.WinrateStats stats = Lizzie.leelaz.getWinrateStats();
+    double curWR = stats.maxWinrate;
+    double curSM = 0.0;
+    if (Lizzie.leelaz.supportScoremean()) curSM = stats.maxScoreMean;
     for (TextData textData : textDatas) {
-      if ((textData.hasMaxWinrate
-              || textData.percentPlayouts >= Lizzie.config.minPlayoutRatioForStats)
+      if (((textData.hasMaxWinrate
+                  || textData.percentPlayouts >= Lizzie.config.minPlayoutRatioForStats)
+              && !Lizzie.config.hoverToShowData)
           || textData.isMouseOver) {
         double roundedWinrate = round(textData.move.winrate * 10) / 10.0;
         if (textData.flipWinrate) {
           roundedWinrate = 100.0 - roundedWinrate;
+        }
+        if (Lizzie.config.showDifferenceInSuggestion) {
+          roundedWinrate -= curWR;
         }
         g.setColor(Color.BLACK);
         if (branchOpt.isPresent() && Lizzie.board.getData().blackToPlay) g.setColor(Color.WHITE);
@@ -900,6 +909,9 @@ public class BoardRenderer {
 
         if (Lizzie.leelaz.supportScoremean() && Lizzie.config.showScoremeanInSuggestion) {
           double score = Utils.actualScoreMean(textData.move.scoreMean);
+          if (Lizzie.config.showDifferenceInSuggestion) {
+            score -= curSM;
+          }
           if (!Lizzie.config.showWinrateInSuggestion) {
             drawString(
                 g,

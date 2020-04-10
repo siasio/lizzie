@@ -289,6 +289,24 @@ public class Menu extends JMenuBar {
     final JMenu Suggestions = new JMenu(resourceBundle.getString("Menu.view.Suggestions"));
     viewMenu.add(Suggestions);
 
+    final JCheckBoxMenuItem suggestion0 =
+        new JCheckBoxMenuItem(resourceBundle.getString("Menu.view.Suggestions.Suggestion0"));
+    suggestion0.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            Lizzie.config.showDifferenceInSuggestion = !Lizzie.config.showDifferenceInSuggestion;
+            Lizzie.config.uiConfig.put(
+                "show-difference-in-suggestion", Lizzie.config.showDifferenceInSuggestion);
+            try {
+              Lizzie.config.save();
+            } catch (IOException es) {
+              // TODO Auto-generated catch block
+            }
+          }
+        });
+    Suggestions.add(suggestion0);
+
     final JCheckBoxMenuItem suggestion1 =
         new JCheckBoxMenuItem(resourceBundle.getString("Menu.view.Suggestions.Suggestion1"));
     suggestion1.addActionListener(
@@ -342,6 +360,23 @@ public class Menu extends JMenuBar {
           }
         });
     Suggestions.add(suggestion3);
+
+    final JCheckBoxMenuItem suggestion4 =
+        new JCheckBoxMenuItem(resourceBundle.getString("Menu.view.Suggestions.Suggestion4"));
+    suggestion4.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            Lizzie.config.hoverToShowData = !Lizzie.config.hoverToShowData;
+            Lizzie.config.uiConfig.put("hover-to-show-data", Lizzie.config.hoverToShowData);
+            try {
+              Lizzie.config.save();
+            } catch (IOException es) {
+              // TODO Auto-generated catch block
+            }
+          }
+        });
+    Suggestions.add(suggestion4);
 
     final JMenu panelView = new JMenu(resourceBundle.getString("Menu.view.panelView"));
     viewMenu.add(panelView);
@@ -919,12 +954,16 @@ public class Menu extends JMenuBar {
     viewMenu.addMenuListener(
         new MenuListener() {
           public void menuSelected(MenuEvent e) {
+            if (Lizzie.config.showDifferenceInSuggestion) suggestion0.setState(true);
+            else suggestion0.setState(false);
             if (Lizzie.config.showWinrateInSuggestion) suggestion1.setState(true);
             else suggestion1.setState(false);
             if (Lizzie.config.showPlayoutsInSuggestion) suggestion2.setState(true);
             else suggestion2.setState(false);
             if (Lizzie.config.showScoremeanInSuggestion) suggestion3.setState(true);
             else suggestion3.setState(false);
+            if (Lizzie.config.hoverToShowData) suggestion4.setState(true);
+            else suggestion4.setState(false);
             if (Lizzie.config.showKataGoBoardScoreMean) {
               kataScoreMean1.setState(false);
               kataScoreMean2.setState(true);
